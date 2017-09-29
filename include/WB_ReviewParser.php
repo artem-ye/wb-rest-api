@@ -5,7 +5,7 @@ include_once('simple_html_dom.php');
 class WB_ReviewParser
 {
 
-    function GetItemReviews($articul) {
+    public function getItemReviews($articul) {
 
         $url  = $this->BuildReviewURL($articul);
         $html = file_get_html($url);
@@ -13,13 +13,37 @@ class WB_ReviewParser
 
     }
 
-    function BuildReviewURL($articul) {
+    public function getItemRating($articul) {
+
+        $reviews        = $this->getItemReviews($articul);
+        $reviewsCount   = count($reviews);
+        $rating         = 0;
+        $lastReviewDate = '';
+
+        if ($reviewsCount > 0) {
+
+            foreach ($reviews as $review)
+                $rating += (int)$review['RatingValue'];
+
+            $lastReviewDate = $reviews[0]['TimeStamp'];
+            $rating = ($reviewsCount==0 ? 0 : $rating/$reviewsCount);
+        }
+
+        return array (
+            'ReviewsCount'   => $reviewsCount,
+            'Rating'         => $rating,
+            'LastReviewDate' => $lastReviewDate,
+        );
+
+    }
+
+    private function buildReviewURL($articul) {
 
         return 'https://www.wildberries.ru/catalog/' . $articul . '/otzyvy?field=Date&order=Asc';
 
     }
 
-    private function ParseReviews($html) {
+    private function parseReviews($html) {
 
         $arrRetVal 		= array();
         $arrFieldList 	= array(
@@ -41,6 +65,7 @@ class WB_ReviewParser
 
         return $arrRetVal;
     }
+
 
 }
 
