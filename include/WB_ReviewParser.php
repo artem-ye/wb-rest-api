@@ -64,6 +64,7 @@ class WB_ReviewParser
         }
 
         return $arrRetVal;
+
     }
 
 
