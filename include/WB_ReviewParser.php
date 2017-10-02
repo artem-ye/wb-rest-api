@@ -39,7 +39,7 @@ class WB_ReviewParser
 
     private function buildReviewURL($articul) {
 
-        return 'https://www.wildberries.ru/catalog/' . $articul . '/otzyvy?field=Date&order=Asc';
+        return 'https://www.wildberries.ru/catalog/' . $articul . '/otzyvy?field=Date&order=Desc';
 
     }
 
