@@ -33,6 +33,7 @@ class API extends REST {
 
         switch ($func) {
 
+            /*
             case 'wb_get_review':
                 array_shift($_REQUEST);
                 $this->wb_get_review($_REQUEST);
@@ -42,6 +43,11 @@ class API extends REST {
                 array_shift($_REQUEST);
                 $this->wb_get_rating($_REQUEST);
                 break;
+            */
+            case 'wb_get_rating_by_url':
+                array_shift($_REQUEST);
+                $this->wb_get_rating_by_url($_REQUEST);
+                break;
 
             default:
                 $this->response("Error code 404, Method < $func > not found", 404);
@@ -50,6 +56,7 @@ class API extends REST {
 
     }
 
+    /*
     private function wb_get_review($params) {
 
         $reviewParser = new WB_ReviewParser();
@@ -62,6 +69,15 @@ class API extends REST {
 
         $reviewParser = new WB_ReviewParser();
         $res = $reviewParser->getItemRating($params['wb_artikul']);
+        $this->response($this->json($res), 200);
+
+    }
+    */
+
+    private function wb_get_rating_by_url($params) {
+
+        $reviewParser = new WB_ReviewParser();
+        $res = $reviewParser->getItemRatingByURL($params['wb_artikul']);
         $this->response($this->json($res), 200);
 
     }
